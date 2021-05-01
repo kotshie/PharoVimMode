@@ -1,3 +1,3 @@
 # PharoVimMode
 
-Work in Progres, not working yet.
+Work in Progress, not working yet.
