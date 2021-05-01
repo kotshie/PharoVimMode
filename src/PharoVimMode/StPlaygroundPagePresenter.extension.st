@@ -1,9 +1,9 @@
 Extension { #name : #StPlaygroundPagePresenter }
 
 { #category : #'*PharoVimMode' }
-StPlaygroundPagePresenter >> enableVimMode [
-	^ vimMode not
-	
+StPlaygroundPagePresenter >> createToggleVimModeButton [
+	(self vim) toggleVimModeButton: statusbar.
+	^ self vim toggleVimModeButton
 ]
 
 { #category : #'*PharoVimMode' }
@@ -15,7 +15,7 @@ StPlaygroundPagePresenter >> initializeStatusbar [
 			vAlignCenter;
 			add: (lineLabel := statusbar newLabel) expand: false;
 			addLast: (toggleLineNumberButton := statusbar newToggleButton) expand: false;
-			addLast: (toggleVimModeButton := statusbar newToggleButton ) expand: false;
+			addLast: (self createToggleVimModeButton) expand: false;
 			yourself).
 
 	lineLabel addStyle: 'dim'.
@@ -25,21 +25,33 @@ StPlaygroundPagePresenter >> initializeStatusbar [
 		help: StShowLineNumbersCommand defaultDescription;
 		state: self showLineNumbers;
 		whenChangedDo: [ :state | self showLineNumbers: state ].
-		
-	toggleVimModeButton
-		label: (StVimEnableCommand iconLabelFor: self enableVimMode );
+	
+	(self toggleVimModeButton)
+		label: (StVimEnableCommand iconLabelFor: self vimModeEnabled );
 		help: StVimEnableCommand defaultDescription;
-		state: self enableVimMode;
-		whenChangedDo: [ :state | self vimMode: state ].
+		state: self vimModeEnabled;
+		whenChangedDo: [ :state | self vimModeEnabled: state ].
+	
+	self vimModeEnabled: (self vim enabled).
 
 ]
 
 { #category : #'*PharoVimMode' }
-StPlaygroundPagePresenter >> vimMode [
-	^vimMode
+StPlaygroundPagePresenter >> toggleVimModeButton [
+	^ self vim toggleVimModeButton.
 ]
 
 { #category : #'*PharoVimMode' }
-StPlaygroundPagePresenter >> vimMode: aBoolean [
-	^vimMode := aBoolean
+StPlaygroundPagePresenter >> vim [
+	^ VimState uniqueInstance 
+]
+
+{ #category : #'*PharoVimMode' }
+StPlaygroundPagePresenter >> vimModeEnabled [
+	^self vim enabled
+]
+
+{ #category : #'*PharoVimMode' }
+StPlaygroundPagePresenter >> vimModeEnabled: aBoolean [
+	self vim enabled: aBoolean
 ]

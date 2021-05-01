@@ -2,12 +2,14 @@ Extension { #name : #RubSmalltalkEditor }
 
 { #category : #'*PharoVimMode' }
 RubSmalltalkEditor >> click: anEvent [
+	| vimAgent |
+	vimAgent := self vim agent.
 	"self selectorChooserClose"
 	Transcript show: anEvent; cr.
 	" If Vim Enabled "
 	self isVimEnabled ifTrue: [ 
-		((vim isNil not) and: [  vim isNormalMode not ])
-			ifTrue: [ vim mode: VimAbstractMode normalMode ].
+		((vimAgent isNil not) and: [ vimAgent isNormalMode not ])
+			ifTrue: [ vimAgent mode: VimAbstractMode normalMode ].
 	].
 	" Else do normal behaviour "
 	^ super click: anEvent
@@ -27,7 +29,13 @@ RubSmalltalkEditor >> isVimEnabled [
 ]
 
 { #category : #'*PharoVimMode' }
+RubSmalltalkEditor >> vim [
+	^ VimState uniqueInstance
+	
+	 
+]
+
+{ #category : #'*PharoVimMode' }
 RubSmalltalkEditor >> vim: aKeyboardEvent return: aBlock [
-	vim ifNil: [  vim := VimAgent new ].
-	^ vim handleInput: aKeyboardEvent for: self.
+	^ (self vim agent) handleInput: aKeyboardEvent for: self.
 ]
