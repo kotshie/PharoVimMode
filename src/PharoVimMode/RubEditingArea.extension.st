@@ -9,14 +9,14 @@ RubEditingArea >> handleKeyUp: anEvent [
 ]
 
 { #category : #'*PharoVimMode' }
-RubEditingArea >> handleKeystroke: anEvent [
+RubEditingArea >> handleKeystroke: aKeystroke [
+	| handled |
+	handled := false.
 	self vim enabled ifTrue: [ 
-		self vim agent isNormalMode ifTrue: [ 
-			self halt.
-			Transcript crShow: anEvent.
-		].
+		handled := self vim agent handleInput: aKeystroke  for: self.
 	].
-	super handleKeystroke: anEvent
+	handled ifFalse: [  super handleKeystroke: aKeystroke ]
+	
 ]
 
 { #category : #'*PharoVimMode' }

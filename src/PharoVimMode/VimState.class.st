@@ -47,7 +47,8 @@ VimState >> enabled [
 
 { #category : #accessing }
 VimState >> enabled: anObject [
-	enabled := anObject
+	enabled := anObject.
+	enabled ifFalse: [ agent := VimAgent new mode: VimAbstractMode normalMode ]
 ]
 
 { #category : #initialization }

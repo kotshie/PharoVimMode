@@ -27,11 +27,12 @@ VimNormalMode >> handleInput: aKeyboardEvent for: anEditor [
 	
 	action == #noop:
 		ifTrue: [ keys := ''. ].
-		
+	
+
 	performAction := [ 
 		newMode := (action asString endsWithAColon )
-			ifTrue: [  ]
-			ifFalse: [  ].].
+			ifTrue: [ self perform: action with: aKeyboardEvent ]
+			ifFalse: [ self perform: action ].].
 	times = ''  ifTrue: [ 
 		times := '1'. 
 		performAction value.
@@ -51,6 +52,11 @@ VimNormalMode >> initialize [
 	keymap := VimNormalDefaultModeKeymap new.
 	keys := ''.
 	times := ''.
+]
+
+{ #category : #'as yet unclassified' }
+VimNormalMode >> insertBeforeCursor: aKeyboardEvent [
+	^ self insertMode
 ]
 
 { #category : #'as yet unclassified' }

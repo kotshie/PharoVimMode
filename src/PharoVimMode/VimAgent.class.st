@@ -17,11 +17,13 @@ VimAgent >> getMode: aKeyboardEvent [
 { #category : #'as yet unclassified' }
 VimAgent >> handleInput: aKeyboardEvent for: anEditor [ 
 	| handled |
+
 	mode := self getMode: aKeyboardEvent.
 	handled := (mode isKindOf: VimInsertMode) not.
-	"mode := mode handleInput: aKeyboardEvent for: anEditor."
+
+	mode := mode handleInput: aKeyboardEvent for: anEditor.
 	Transcript show: aKeyboardEvent; cr.
-	^false
+	^handled
 ]
 
 { #category : #testing }

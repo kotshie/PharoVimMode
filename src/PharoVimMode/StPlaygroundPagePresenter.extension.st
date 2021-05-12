@@ -26,9 +26,14 @@ StPlaygroundPagePresenter >> initializeStatusbar [
 		label: (StVimEnableCommand iconLabelFor: self vim enabled );
 		help: StVimEnableCommand defaultDescription;
 		state: self vim enabled;
-		whenChangedDo: [ :state | self vim enabled: state ].
+		whenChangedDo: [ :state | self updateVimMode: state ].
 	
 
+]
+
+{ #category : #'*PharoVimMode' }
+StPlaygroundPagePresenter >> updateVimMode: aBoolean [
+	self vim enabled: aBoolean
 ]
 
 { #category : #'*PharoVimMode' }
