@@ -23,7 +23,6 @@ StVimEnableCommand class >> hideVimModeLabel [
 
 { #category : #default }
 StVimEnableCommand class >> iconLabelFor: aBoolean [
-	
 	^ aBoolean 
 		ifTrue: [ '+V' ]
 		ifFalse: [ 'V' ]
@@ -36,7 +35,8 @@ StVimEnableCommand class >> showVimModeLabel [
 
 { #category : #executing }
 StVimEnableCommand >> execute [ 
-	context vimModeEnabled
+	self halt.
+	context vim enabled: true.
 ]
 
 { #category : #executing }

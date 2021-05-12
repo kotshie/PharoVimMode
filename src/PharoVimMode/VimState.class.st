@@ -18,6 +18,11 @@ VimState class >> new [
 ]
 
 { #category : #accessing }
+VimState class >> reset [
+	uniqueInstance := nil
+]
+
+{ #category : #accessing }
 VimState class >> uniqueInstance [
 	^uniqueInstance ifNil: [ uniqueInstance := self basicNew initialize ]
 ]
@@ -42,7 +47,6 @@ VimState >> enabled [
 
 { #category : #accessing }
 VimState >> enabled: anObject [
-
 	enabled := anObject
 ]
 
@@ -50,15 +54,4 @@ VimState >> enabled: anObject [
 VimState >> initialize [ 
 	enabled := false.
 	agent := VimAgent new mode: VimAbstractMode normalMode.
-]
-
-{ #category : #accessing }
-VimState >> toggleVimModeButton [
-
-	^ toggleVimModeButton
-]
-
-{ #category : #initialization }
-VimState >> toggleVimModeButton: aStatusBar [
-	toggleVimModeButton := aStatusBar newToggleButton
 ]
