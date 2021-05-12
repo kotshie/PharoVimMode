@@ -41,7 +41,6 @@ StVimEnableCommand >> execute [
 
 { #category : #executing }
 StVimEnableCommand >> name [ 
-	self halt.
 	^ context vimModeEnabled 
 		ifTrue: [ self class hideVimModeLabel ]
 		ifFalse: [ self class showVimModeLabel ]
