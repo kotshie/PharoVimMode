@@ -50,6 +50,12 @@ VimNormalMode >> cursorLeft: aKeyboardEvent [
 	^ self normalMode.
 ]
 
+{ #category : #accessing }
+VimNormalMode >> cursorLineBegin: aKeyboardEvent [
+	editor editor cursorHome: aKeyboardEvent.
+	^ self normalMode
+]
+
 { #category : #'as yet unclassified' }
 VimNormalMode >> cursorLineEnd: aKeyboardEvent [
 	"$"
@@ -87,6 +93,57 @@ VimNormalMode >> cursorWordBegin: aKeyboardEvent [
 	
 	rubEditor selectAt: index.
 	^self normalMode
+]
+
+{ #category : #'as yet unclassified' }
+VimNormalMode >> deleteLine: aKeyboardEvent [
+	| start end position rubEditor |
+	" dd "
+	rubEditor := editor editor.
+	position := rubEditor pointIndex.
+	rubEditor cursorHome: aKeyboardEvent.
+	start := rubEditor pointIndex.
+	rubEditor cursorEnd: aKeyboardEvent.
+	end := rubEditor pointIndex.
+	rubEditor selectFrom: start to: end.
+	rubEditor cut.
+	
+	(start = end) & (end > (rubEditor string size))
+		ifTrue: [  
+			rubEditor backspace: aKeyboardEvent.
+			rubEditor clipboardTextPut: String cr.
+			^ self normalMode
+		].
+	
+	start = end 
+		ifTrue: [ rubEditor clipboardTextPut: '' ]
+		ifFalse: [ rubEditor clipboardTextPut: (String cr, rubEditor clipboardText) ].
+		
+	^self normalMode
+	
+	
+	
+]
+
+{ #category : #'as yet unclassified' }
+VimNormalMode >> enableVisualCharMode: aKeyboardEvent [
+	| mode index rubEditor |
+	rubEditor := editor editor.
+	mode := self class visualCharMode: editor.
+	index := rubEditor pointIndex.
+	rubEditor selectFrom: index to: index.
+	^mode
+]
+
+{ #category : #'as yet unclassified' }
+VimNormalMode >> enableVisualLineMode: aKeyboardEvent [
+	| mode rubEditor |
+	rubEditor := editor editor.
+	mode := self class visualLineMode: editor.
+	mode markIndex: rubEditor startIndex.
+	mode markStartIndex: rubEditor startIndex.
+	mode markStopIndex: rubEditor stopIndex.
+	^mode
 ]
 
 { #category : #'as yet unclassified' }
@@ -170,6 +227,45 @@ VimNormalMode >> insertAtEndOfLine: aKeyboardEvent [
 { #category : #'as yet unclassified' }
 VimNormalMode >> insertBeforeCursor: aKeyboardEvent [
 	^ self insertMode
+]
+
+{ #category : #'as yet unclassified' }
+VimNormalMode >> redoChanges: aKeyboardEvent [
+	aKeyboardEvent controlKeyPressed 
+		ifTrue: [ editor editor redo ].
+	^ self normalMode.
+]
+
+{ #category : #'as yet unclassified' }
+VimNormalMode >> replaceCharacter: aKeyboardEvent [
+	"r"
+	| str position rubEditor |
+	rubEditor := editor editor.
+	position := rubEditor pointIndex.
+	str := (Character value: (aKeyboardEvent keyValue)) asString.
+	rubEditor selectFrom: position to: position.
+	rubEditor replaceSelectionWith: str.
+	rubEditor selectAt: position.
+	^self normalMode
+]
+
+{ #category : #'as yet unclassified' }
+VimNormalMode >> replaceString: aKeyboardEvent [
+	"r"
+	| str position rubEditor |
+	rubEditor := editor editor.
+	position := rubEditor pointIndex.
+	str := (Character value: (aKeyboardEvent keyValue)) asString.
+	rubEditor selectFrom: position to: position.
+	rubEditor replaceSelectionWith: str.
+	rubEditor selectAt: position + 1.
+	^self
+]
+
+{ #category : #'as yet unclassified' }
+VimNormalMode >> undo [
+	editor editor undo.
+	^ self normalMode
 ]
 
 { #category : #'as yet unclassified' }
