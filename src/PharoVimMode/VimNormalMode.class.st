@@ -7,7 +7,7 @@ Class {
 { #category : #accessing }
 VimNormalMode >> cursorBackwardWordBegin: aKeyboardEvent [
 	| str rubEditor index |
-	self haltOnce.
+	" TODO: Fix this "
 	rubEditor := editor editor.
 	str := rubEditor string.
 	index := rubEditor pointIndex.
@@ -27,12 +27,13 @@ VimNormalMode >> cursorBackwardWordBegin: aKeyboardEvent [
 	index = 1 ifTrue: [ 
 		rubEditor selectAt: index.
 		^ self normalMode ].
-
+	
 	[ index > 1
 		ifTrue: [ (str at: index) isAlphaNumeric ]
 		ifFalse: [ false ] ] whileTrue: [ index := index - 1 ].
 	
 	rubEditor selectAt: index + 1.
+	
 	^self normalMode
 	
 ]
@@ -69,6 +70,23 @@ VimNormalMode >> cursorRight: aKeyboardEvent [
 VimNormalMode >> cursorUp: aKeyboardEvent [
 	editor editor cursorUp: aKeyboardEvent.
 	^ self normalMode.
+]
+
+{ #category : #accessing }
+VimNormalMode >> cursorWordBegin: aKeyboardEvent [
+	| str index rubEditor |
+	rubEditor := editor editor.
+	str := rubEditor string.
+	index := rubEditor pointIndex.
+	
+ 	[ (index <= (str size)) and: [ (str at: index) isAlphaNumeric  ] ]
+		whileTrue: [ index := index + 1 ].
+	
+	[ (index <= (str size)) and: [ (str at: index) isAlphaNumeric not ] ]
+		whileFalse: [ index := index + 1 ].
+	
+	rubEditor selectAt: index.
+	^self normalMode
 ]
 
 { #category : #'as yet unclassified' }
