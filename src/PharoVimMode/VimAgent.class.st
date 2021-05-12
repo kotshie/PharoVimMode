@@ -18,6 +18,7 @@ VimAgent >> getMode: aKeyboardEvent [
 VimAgent >> handleInput: aKeyboardEvent for: anEditor [ 
 	| handled |
 
+
 	mode := self getMode: aKeyboardEvent.
 	handled := (mode isKindOf: VimInsertMode) not.
 

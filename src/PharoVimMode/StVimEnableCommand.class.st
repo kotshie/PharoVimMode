@@ -34,8 +34,7 @@ StVimEnableCommand class >> showVimModeLabel [
 ]
 
 { #category : #executing }
-StVimEnableCommand >> execute [ 
-	self halt.
+StVimEnableCommand >> execute [
 	context vim enabled: true.
 ]
 
