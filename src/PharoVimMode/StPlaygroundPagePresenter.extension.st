@@ -1,6 +1,18 @@
 Extension { #name : #StPlaygroundPagePresenter }
 
 { #category : #'*PharoVimMode' }
+StPlaygroundPagePresenter >> editingArea [
+	|  scrolledTextMorph scrollPane |
+	"Hack to get the internal RubEditingArea Morph"
+	scrolledTextMorph := self adapter childrenWidgets 
+		detect: [ :w | w isKindOf: SpRubScrolledTextMorph ].
+	scrollPane := scrolledTextMorph submorphs detect: [ :m | 
+		              m isKindOf: RubTextScrollPane ].
+	^ (scrollPane submorphs at:1) submorphs at:1
+		
+]
+
+{ #category : #'*PharoVimMode' }
 StPlaygroundPagePresenter >> initializeStatusbar [
 
 	| toggleVimModeButton |
@@ -36,7 +48,9 @@ StPlaygroundPagePresenter >> initializeStatusbar [
 
 { #category : #'*PharoVimMode' }
 StPlaygroundPagePresenter >> updateVimMode: aBoolean [
-	self vim enabled: aBoolean
+	self vim enabled: aBoolean.
+	self editingArea updateCursorStyle.
+
 ]
 
 { #category : #'*PharoVimMode' }

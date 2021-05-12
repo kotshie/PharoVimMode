@@ -2,9 +2,11 @@ Extension { #name : #RubEditingArea }
 
 { #category : #'*PharoVimMode' }
 RubEditingArea >> click: anEvent [
+	| handled |
+	handled := super click: anEvent.
 	Transcript crShow: anEvent.
 	self updateCursorStyle.
-	^ super click: anEvent
+	^handled
 ]
 
 { #category : #'*PharoVimMode' }
