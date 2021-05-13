@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'mode'
 	],
-	#category : #PharoVimMode
+	#category : #'PharoVimMode-Vim'
 }
 
 { #category : #'as yet unclassified' }

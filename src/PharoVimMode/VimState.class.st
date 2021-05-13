@@ -9,7 +9,7 @@ Class {
 	#classInstVars : [
 		'uniqueInstance'
 	],
-	#category : #PharoVimMode
+	#category : #'PharoVimMode-Vim'
 }
 
 { #category : #accessing }

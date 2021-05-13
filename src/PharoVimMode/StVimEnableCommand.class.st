@@ -1,7 +1,7 @@
 Class {
 	#name : #StVimEnableCommand,
 	#superclass : #StCommand,
-	#category : #PharoVimMode
+	#category : #'PharoVimMode-Vim'
 }
 
 { #category : #default }

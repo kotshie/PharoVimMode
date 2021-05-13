@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'markIndex'
 	],
-	#category : #PharoVimMode
+	#category : #'PharoVimMode-Vim'
 }
 
 { #category : #accessing }

@@ -1,7 +1,7 @@
 Class {
 	#name : #VimNormalFindAfterPreviousModeKeymap,
 	#superclass : #VimKeymap,
-	#category : #PharoVimMode
+	#category : #'PharoVimMode-Vim'
 }
 
 { #category : #accessing }

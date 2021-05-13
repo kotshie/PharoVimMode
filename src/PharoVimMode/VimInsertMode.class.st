@@ -1,7 +1,7 @@
 Class {
 	#name : #VimInsertMode,
 	#superclass : #VimAbstractMode,
-	#category : #PharoVimMode
+	#category : #'PharoVimMode-Vim'
 }
 
 { #category : #'as yet unclassified' }

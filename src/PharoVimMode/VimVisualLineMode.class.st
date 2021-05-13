@@ -1,7 +1,7 @@
 Class {
 	#name : #VimVisualLineMode,
 	#superclass : #VimAbstractMode,
-	#category : #PharoVimMode
+	#category : #'PharoVimMode-Vim'
 }
 
 { #category : #copying }

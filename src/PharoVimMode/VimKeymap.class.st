@@ -1,7 +1,7 @@
 Class {
 	#name : #VimKeymap,
 	#superclass : #Object,
-	#category : #PharoVimMode
+	#category : #'PharoVimMode-Vim'
 }
 
 { #category : #accessing }

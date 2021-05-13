@@ -10,7 +10,7 @@ Class {
 		'markStartIndex',
 		'markStopIndex'
 	],
-	#category : #PharoVimMode
+	#category : #'PharoVimMode-Vim'
 }
 
 { #category : #'as yet unclassified' }
