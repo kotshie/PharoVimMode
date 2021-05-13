@@ -120,7 +120,7 @@ VimNormalMode >> cursorWordBegin: aKeyboardEvent [
 		whileTrue: [ index := index + 1 ].
 	
 	[ (index <= (str size)) and: [ (str at: index) isAlphaNumeric not ] ]
-		whileFalse: [ index := index + 1 ].
+		whileTrue: [ index := index + 1 ].
 	
 	rubEditor selectAt: index.
 	^self normalMode
@@ -157,6 +157,27 @@ VimNormalMode >> deleteLine: aKeyboardEvent [
 ]
 
 { #category : #'as yet unclassified' }
+VimNormalMode >> deleteWord: aKeyboardEvent [
+	| start end rubEditor |
+	rubEditor := editor editor.
+	start := rubEditor pointIndex.
+	self cursorWordBegin: aKeyboardEvent.
+	end := (rubEditor pointIndex) > start
+		ifTrue: [ (editor pointIndex) - 1]
+		ifFalse: [ editor pointIndex ].
+	rubEditor selectFrom: start to: end.
+	rubEditor cut.
+	^self normalMode.
+	
+]
+
+{ #category : #'as yet unclassified' }
+VimNormalMode >> deleteWordAndInsert: aKeyboardEvent [
+	self deleteWord: aKeyboardEvent.
+	^self insertMode.
+]
+
+{ #category : #'as yet unclassified' }
 VimNormalMode >> enableVisualCharMode: aKeyboardEvent [
 	| mode index rubEditor |
 	rubEditor := editor editor.
@@ -187,7 +208,7 @@ VimNormalMode >> handleInput: aKeyboardEvent for: anEditor [
 	| key newKeymap action newMode performAction |
 	editor := anEditor.
 	key := aKeyboardEvent keyCharacter.
-	
+
 	(keymap isKindOf: VimNormalDefaultModeKeymap) & (aKeyboardEvent keyCharacter isDigit)
 		ifTrue: [ key = $0 & (times = '') ifFalse: [ times := (times, key asString). ^self ] ].
 	
@@ -252,6 +273,12 @@ VimNormalMode >> initialize [
 	keymap := VimNormalDefaultModeKeymap new.
 	keys := ''.
 	times := ''.
+]
+
+{ #category : #'as yet unclassified' }
+VimNormalMode >> insertAtBeginOfLine: aKeyboardEvent [
+	self cursorLineBegin: aKeyboardEvent.
+	^ self insertMode
 ]
 
 { #category : #'as yet unclassified' }
@@ -345,6 +372,7 @@ VimNormalMode >> updateKeymap: aKeyboardEvent [
 	
 	cmdMap := Dictionary new.
 	assocs := { 
+	   ($c -> VimNormalChangeModeMap new).
 		($d -> VimNormalDeleteModeKeymap new).
 		($r -> VimNormalReplaceCharacterKeymap new).
 		($R -> VimNormalReplaceStringModeKeymap new).

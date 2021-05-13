@@ -34,6 +34,7 @@ VimNormalDefaultModeKeymap >> keymap [
 
  "Insert text"
 	  ($i -> #insertBeforeCursor:).
+	  ($I -> #insertAtBeginOfLine:).
 	  ($a -> #insertAfterCursor:).
 	  ($A -> #insertAtEndOfLine:).
 	  ($o -> #appendNewLine:).
