@@ -50,6 +50,10 @@ StPlaygroundPagePresenter >> initializeStatusbar [
 StPlaygroundPagePresenter >> updateVimMode: aBoolean [
 	self vim enabled: aBoolean.
 	self editingArea updateCursorStyle.
+	aBoolean 
+		ifTrue: [ self inform: 'VIM Mode Enabled' ]
+		ifFalse: [ self inform: 'VIM Mode Disabled' ].
+		
 
 ]
 
