@@ -4,6 +4,37 @@ Class {
 	#category : #PharoVimMode
 }
 
+{ #category : #'as yet unclassified' }
+VimNormalMode >> appendNewLine: aKeyboardEvent [
+	| rubEditor |
+	"o"
+	rubEditor := editor editor.
+	rubEditor cursorEnd: aKeyboardEvent.
+	rubEditor insertAndSelect: String cr at: rubEditor pointIndex.
+	rubEditor cursorRight: aKeyboardEvent.
+	^self insertMode
+	
+	
+]
+
+{ #category : #'as yet unclassified' }
+VimNormalMode >> copyLine: aKeyboardEvent [
+	"yy" 
+	| position text lineIndex rubEditor |
+	rubEditor := editor editor.
+	position := rubEditor pointIndex.
+	lineIndex := rubEditor string lineNumberCorrespondingToIndex: position.
+	text := (lineIndex <= rubEditor string lines size)
+		ifTrue: [ rubEditor string lines at: lineIndex ]
+		ifFalse: [ '' ].
+	
+	text := String cr, text.
+	rubEditor clipboardTextPut: text.
+	
+	^self normalMode
+
+]
+
 { #category : #accessing }
 VimNormalMode >> cursorBackwardWordBegin: aKeyboardEvent [
 	| str rubEditor index |
@@ -147,6 +178,11 @@ VimNormalMode >> enableVisualLineMode: aKeyboardEvent [
 ]
 
 { #category : #'as yet unclassified' }
+VimNormalMode >> forwardDelete: aKeyboardEvent [
+	editor editor forwardDelete: aKeyboardEvent 
+]
+
+{ #category : #'as yet unclassified' }
 VimNormalMode >> handleInput: aKeyboardEvent for: anEditor [
 	| key newKeymap action newMode performAction |
 	editor := anEditor.
@@ -227,6 +263,39 @@ VimNormalMode >> insertAtEndOfLine: aKeyboardEvent [
 { #category : #'as yet unclassified' }
 VimNormalMode >> insertBeforeCursor: aKeyboardEvent [
 	^ self insertMode
+]
+
+{ #category : #'as yet unclassified' }
+VimNormalMode >> pasteText: aKeyboardEvent [
+	| text pasteLines paste pasteCR rubEditor |
+	rubEditor := editor editor.
+	text := rubEditor clipboardText.
+	pasteCR := [ 
+		self cursorLineEnd: aKeyboardEvent. 
+		rubEditor paste.
+		^ self normalMode
+	].
+
+	pasteLines := [  
+		rubEditor paste.	
+		self cursorLineBegin: aKeyboardEvent.
+	].
+
+	paste := [ rubEditor paste ].
+	
+	" empty "
+	text isEmpty ifTrue: [ ^self normalMode ].
+	
+	" cr "
+	text = String cr ifTrue: pasteCR.
+	
+	" lines / other "
+	text first = Character cr 
+		ifTrue: pasteLines 
+		ifFalse: paste.
+		
+	^self normalMode.
+	
 ]
 
 { #category : #'as yet unclassified' }
