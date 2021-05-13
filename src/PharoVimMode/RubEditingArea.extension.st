@@ -43,27 +43,32 @@ RubEditingArea >> handleKeystroke: aKeystroke [
 
 { #category : #'*PharoVimMode' }
 RubEditingArea >> updateCursorStyle [
-	self vim enabled
+
+	| isVimEnabled isDarkMode cursorColor cursorWidth |
+	isVimEnabled := self vim enabled.
+	isDarkMode := self theme isKindOf: PharoLightTheme.
+
+	isVimEnabled
 		ifFalse: [ 
-			Transcript crShow: 'Vim Mode OFF'.
-			self cursor visibleCursorColor: Color lightGray.
-			self cursor width: 2.
-		 ]
-		ifTrue:  [ 
-			self vim agent isNormalMode 
-				ifTrue: [
-					" Normal Mode "
-					Transcript crShow: 'Normal Mode'.
-					self cursor visibleCursorColor:  Color lightGreen.
-					self cursor width: 8.
-					 ]
-				ifFalse: [ 
-					" Insert Mode and other modes"
-					Transcript crShow: 'insert Mode'.
-					self cursor visibleCursorColor:  Color lightGreen.
-					self cursor width: 2.
-				].
-		].
+			cursorColor := isDarkMode
+				               ifTrue: [ Color lightGray ]
+				               ifFalse: [ Color darkGray ].
+			cursorWidth := 2 ]
+		ifTrue: [ 
+			self vim agent isNormalMode
+				ifTrue: [ " Normal Mode "
+					cursorColor := isDarkMode
+						               ifTrue: [ Color lightGray ]
+						               ifFalse: [ Color darkGray ].
+					cursorWidth := 8 ]
+				ifFalse: [ " Insert Mode and other modes"
+					cursorColor := isDarkMode
+						               ifTrue: [ Color lightGray ]
+						               ifFalse: [ Color darkGray ].
+					cursorWidth := 2 ] ].
+
+	self cursor visibleCursorColor: cursorColor.
+	self cursor width: cursorWidth
 ]
 
 { #category : #'*PharoVimMode' }
