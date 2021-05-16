@@ -54,8 +54,8 @@ VimNormalDefaultModeKeymap >> keymap [
 	  ($u -> #undo).
 	  ((Character value: 18) -> #redoChanges:). "ctrl + $r" 
 
-	  "($v -> #enableVisualCharMode:)." "$v"
-	  ($V -> #enableVisualLineMode:). "$V"
+	  ($v -> #enableVisualCharMode:). "$v"
+	  "($V -> #enableVisualLineMode:)." "$V"
 	  "((Character value: 22) -> #tryVisualBlockMode:)." "ctrl + $v"
 
    ($* -> #emphasisWordUnderCursor:). 
