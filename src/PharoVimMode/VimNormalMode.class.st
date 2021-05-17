@@ -126,6 +126,33 @@ VimNormalMode >> cursorWordBegin: aKeyboardEvent [
 	^self normalMode
 ]
 
+{ #category : #accessing }
+VimNormalMode >> cursorWordEnd: aKeyboardEvent [
+	| str index rubEditor initialIsAlphaNumberic |
+	
+	rubEditor := editor editor.
+	index := rubEditor pointIndex.
+	str := rubEditor string.
+	index = ((str size) + 1)
+		ifTrue: [ ^self normalMode ].
+
+	initialIsAlphaNumberic := (str at: index) isAlphaNumeric.
+	initialIsAlphaNumberic 
+		ifTrue: [ 
+			[ index <= str size and: [ (str at: index) isAlphaNumeric  ] ] 
+				whileTrue: [ index := index + 1 ].
+			rubEditor selectAt: index. 
+			^ self normalMode
+		].
+
+
+	[  index <= str size and: [ (str at: index) isAlphaNumeric not ] ] whileTrue: [ index := index + 1 ].
+	[  index <= str size and: [ (str at: index) isAlphaNumeric ] ] whileTrue: [ index := index + 1 ].
+
+	rubEditor selectAt: index.	
+	^self normalMode
+]
+
 { #category : #'as yet unclassified' }
 VimNormalMode >> deleteLine: aKeyboardEvent [
 	| start end position rubEditor |
@@ -161,7 +188,7 @@ VimNormalMode >> deleteWord: aKeyboardEvent [
 	| start end rubEditor |
 	rubEditor := editor editor.
 	start := rubEditor pointIndex.
-	self cursorWordBegin: aKeyboardEvent.
+	self cursorWordEnd: aKeyboardEvent.
 	end := (rubEditor pointIndex) > start
 		ifTrue: [ (editor pointIndex) - 1]
 		ifFalse: [ editor pointIndex ].
