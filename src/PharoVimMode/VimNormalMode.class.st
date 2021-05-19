@@ -184,6 +184,21 @@ VimNormalMode >> deleteLine: aKeyboardEvent [
 ]
 
 { #category : #'as yet unclassified' }
+VimNormalMode >> deleteLineEnd: aKeyboardEvent [
+	| start end rubEditor |
+	rubEditor := editor editor.
+	start := rubEditor pointIndex.
+	self cursorLineEnd: aKeyboardEvent.
+	end := (rubEditor pointIndex) > start
+		ifTrue: [ (rubEditor pointIndex) - 1]
+		ifFalse: [ rubEditor pointIndex ].
+	rubEditor selectFrom: start to: end.
+	rubEditor cut.
+	^ self normalMode
+
+]
+
+{ #category : #'as yet unclassified' }
 VimNormalMode >> deleteWord: aKeyboardEvent [
 	| start end rubEditor |
 	rubEditor := editor editor.
