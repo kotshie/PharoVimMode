@@ -175,7 +175,7 @@ VimNormalMode >> deleteLine: aKeyboardEvent [
 	
 	start = end 
 		ifTrue: [ rubEditor clipboardTextPut: '' ]
-		ifFalse: [ rubEditor clipboardTextPut: (String cr, rubEditor clipboardText) ].
+		ifFalse: [ rubEditor clipboardTextPut: rubEditor clipboardText ].
 		
 	^self normalMode
 	
