@@ -120,7 +120,7 @@ VimAbstractMode >> cursorBackwardWordBeginIndex: aKeyboardEvent [
 
 { #category : #'editing keys' }
 VimAbstractMode >> cut: aKeyboardEvent [ 
-	editor cut.
+	editor editor cut.
 	^ self normalMode.
 ]
 

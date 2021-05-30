@@ -54,7 +54,7 @@ VimNormalDefaultModeKeymap >> keymap [
 	  ($u -> #undo).
 	  ((Character value: 18) -> #redoChanges:). "ctrl + $r" 
 
-	  ($v -> #enableVisualCharMode:). "$v"
+	  ($v -> #enableVisualLineMode:). "$v"
 	  "($V -> #enableVisualLineMode:)." "$V"
 	  "((Character value: 22) -> #tryVisualBlockMode:)." "ctrl + $v"
 
