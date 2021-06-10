@@ -2,6 +2,7 @@
 ❌ - Not Working
 ⚠️ - Don't know.
 ✅ - Works
+
 source: https://vim.rtorr.com/
 
 
