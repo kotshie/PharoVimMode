@@ -9,8 +9,12 @@ Metacello new
    load
 ```
 
-Most commands now work.
+Basic commands work.
 
+[Current progress](./docs/bindings.md)
+
+---
+## Screenshot
 ![Screenshot](screenshot.png)
 
 Based on https://github.com/unchartedworks/SmalltalkVimMode
