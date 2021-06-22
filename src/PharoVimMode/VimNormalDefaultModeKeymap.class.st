@@ -25,8 +25,6 @@ VimNormalDefaultModeKeymap >> keymap [
 		 ($0 -> #cursorLineBegin:).
 	  ($$ -> #cursorLineEnd:). 
 		 ($^ -> #cursorLineBeginNoneEmpty:).
-	  ($g -> #cursorBufferBegin:).
-	  ($G -> #cursorBufferEnd:).  
 	  (Character arrowLeft -> #cursorLeft:).
 	  (Character arrowRight -> #cursorRight:).
 	  (Character arrowUp -> #cursorUp:).

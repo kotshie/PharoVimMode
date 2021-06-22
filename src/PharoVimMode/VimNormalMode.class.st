@@ -70,6 +70,12 @@ VimNormalMode >> cursorBackwardWordBegin: aKeyboardEvent [
 ]
 
 { #category : #'as yet unclassified' }
+VimNormalMode >> cursorBufferBegin: aKeyboardEvent [
+	self editor editor selectAt: 1.
+	^self normalMode.
+]
+
+{ #category : #'as yet unclassified' }
 VimNormalMode >> cursorDown: aKeyboardEvent [
 	editor editor cursorDown: aKeyboardEvent.
 	^ self normalMode.
@@ -88,11 +94,47 @@ VimNormalMode >> cursorLineBegin: aKeyboardEvent [
 ]
 
 { #category : #'as yet unclassified' }
+VimNormalMode >> cursorLineBeginNoneEmpty: aKeyboardEvent [
+	"^"
+	| str index rubEditor |
+	self cursorLineBegin: aKeyboardEvent.
+	rubEditor := editor editor.
+	index := rubEditor pointIndex.
+	str := rubEditor string.
+	
+	[ index < (str size)
+		ifTrue: [ (str at: index) isAlphaNumeric not ]
+		ifFalse: [ false ] ] whileTrue: [ index := index + 1 ].
+	
+	rubEditor selectAt: index.
+	^self normalMode.
+
+]
+
+{ #category : #'as yet unclassified' }
 VimNormalMode >> cursorLineEnd: aKeyboardEvent [
 	"$"
 	| index |
 	index := self indexOfEndOfCurrentLine.
 	editor editor selectAt: index.
+	^ self normalMode
+
+]
+
+{ #category : #'as yet unclassified' }
+VimNormalMode >> cursorLineEndNoneEmpty: aKeyboardEvent [
+	| rubEditor str index |
+	"g_"
+	self cursorLineEnd: aKeyboardEvent.
+	rubEditor := editor editor.
+	str := rubEditor string.
+	index := (rubEditor pointIndex) - 1.
+	
+	[(index > 1) 
+		ifTrue: [ (str at: index) isSpaceSeparator ]
+		ifFalse: [ false ]] whileTrue: [ index := index - 1 ].
+	
+	rubEditor selectAt: index .
 	^ self normalMode
 
 ]
