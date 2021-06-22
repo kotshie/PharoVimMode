@@ -24,10 +24,11 @@ source: https://vim.rtorr.com/
 | B | jump backwards to the start of a word (contains punctuation) | ⚠️|
 | % | move to matching character (default: '()' '[]') | ⚠️|
 | 0 | jump to the start of line | ⚠️|
-| ^ | jump to the first non-blank character of the line | ⚠️|
-| $ | jump to the end of the line | ⚠️|
-| g_ | jump to the last non-blank character of the line | ⚠️|
-| gg | go to the first line of the document | ⚠️|
+| ^ | jump to the first non-blank character of the line | ✅ |
+| $ | jump to the end of the line | ✅ |
+| g_ | jump to the last non-blank character of the line | ✅ |
+| gg | go to the first line of the document | ✅ |
+| W | jumps to the start of the word | ✅ |
 | G | go to the last line of the document | ⚠️|
 | 5gg or 5G | go to line 5 | ⚠️|
 | gd | move to local declaration | ⚠️|
