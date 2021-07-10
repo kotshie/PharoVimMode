@@ -4,14 +4,12 @@ Extension { #name : #RubEditingArea }
 RubEditingArea >> click: anEvent [
 	| handled |
 	handled := super click: anEvent.
-	Transcript crShow: anEvent.
 	self updateCursorStyle.
 	^handled
 ]
 
 { #category : #'*PharoVimMode' }
 RubEditingArea >> focusChanged [ 
-	Transcript crShow: 'Focus Changed'.
 	super focusChanged.
 ]
 

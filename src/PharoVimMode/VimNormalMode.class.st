@@ -78,12 +78,14 @@ VimNormalMode >> cursorBufferBegin: aKeyboardEvent [
 { #category : #'as yet unclassified' }
 VimNormalMode >> cursorDown: aKeyboardEvent [
 	editor editor cursorDown: aKeyboardEvent.
+	editor textArea scrollSelectionIntoView: aKeyboardEvent.
 	^ self normalMode.
 ]
 
 { #category : #'as yet unclassified' }
 VimNormalMode >> cursorLeft: aKeyboardEvent [
 	editor editor cursorLeft: aKeyboardEvent.
+	editor textArea scrollSelectionIntoView: aKeyboardEvent.
 	^ self normalMode.
 ]
 
@@ -142,12 +144,14 @@ VimNormalMode >> cursorLineEndNoneEmpty: aKeyboardEvent [
 { #category : #'as yet unclassified' }
 VimNormalMode >> cursorRight: aKeyboardEvent [
 	editor editor cursorRight: aKeyboardEvent.
+	editor textArea scrollSelectionIntoView: aKeyboardEvent.
 	^ self normalMode.
 ]
 
 { #category : #'as yet unclassified' }
 VimNormalMode >> cursorUp: aKeyboardEvent [
 	editor editor cursorUp: aKeyboardEvent.
+	editor textArea scrollSelectionIntoView: aKeyboardEvent.
 	^ self normalMode.
 ]
 
@@ -290,6 +294,7 @@ VimNormalMode >> forwardDelete: aKeyboardEvent [
 { #category : #'as yet unclassified' }
 VimNormalMode >> handleInput: aKeyboardEvent for: anEditor [
 	| key newKeymap action newMode performAction |
+
 	editor := anEditor.
 	key := aKeyboardEvent keyCharacter.
 
@@ -300,27 +305,27 @@ VimNormalMode >> handleInput: aKeyboardEvent for: anEditor [
 	
 	(keymap isKindOf: VimNormalDefaultModeKeymap) & ((newKeymap isKindOf: VimNormalDefaultModeKeymap ) not)
 		ifTrue: [ 
-			Transcript show: newKeymap asString; cr.
 			keymap := newKeymap.
 			^ self
 		].
 	keymap := newKeymap.
 	action := (keymap keymap) at: key ifAbsent: [ #noop: ].
-	Transcript show: key asciiValue; cr.
 	
 	action == #noop:
 		ifTrue: [ keys := ''. ].
 	
-
 	performAction := [ 
 		newMode := (action asString endsWithAColon )
 			ifTrue: [ self perform: action with: aKeyboardEvent ]
-			ifFalse: [ self perform: action ].].
+			ifFalse: [ self perform: action ].
+	].
+
 	times = ''  ifTrue: [ 
 		times := '1'. 
 		performAction value.
 		^ newMode
 	].
+
 	1 to: (times asInteger) do: [ :x | performAction value ].
 	^ newMode
 		

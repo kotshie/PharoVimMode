@@ -23,7 +23,7 @@ VimAgent >> handleInput: aKeyboardEvent for: anEditor [
 	handled := (mode isKindOf: VimInsertMode) not.
 
 	mode := mode handleInput: aKeyboardEvent for: anEditor.
-	Transcript show: aKeyboardEvent; cr.
+
 	^handled
 ]
 
